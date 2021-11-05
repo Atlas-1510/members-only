@@ -1,14 +1,25 @@
 <!DOCTYPE html>
-<%- include("./partials/head.ejs") %> 
+<%- include("./partials/head.ejs", {title: "Sign Up"}) %> 
 <body>
-  <h1><%= title %> </h1>
-<form>
-  <label for="username">Username:</label>
-  <input name="username" id="username" type="text" />
+  <h1>Sign Up</h1>
+<form action="" method="post">
+  <label for="firstName">First name:</label>
+  <input name="firstName" id="firstName" type="text" value="<%= locals.user ? user.firstName : "" %>" />
+  <label for="lastName">Last name:</label>
+  <input name="lastName" id="lastName" type="text" value="<%= locals.user ? user.lastName : "" %>"/>
+  <label for="email">Email:</label>
+  <input name="email" id="email" type="text" value="<%= locals.user ? user.email : "" %>"/>
   <label for="password">Password:</label>
-  <input type="password" id="password" />
+  <input name="password" id="password" type="password" value="<%= locals.user ? user.password : "" %>" />
   <input type="submit" />
 </form>
+<% if (locals.errors) { %>
+ <ul>
+   <% errors.forEach(error => { %>
+      <li><%= error.msg %> </li>
+   <% }) %>
+ </ul>
+<% } %>
   <a href="/">Go back</a>
 </body>
 </html>

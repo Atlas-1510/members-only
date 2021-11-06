@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
+const bcryptjs = require("bcryptjs");
 
 // Display sign-up form on GET
 exports.sign_up_get = [
@@ -57,11 +58,18 @@ exports.sign_up_post = [
         errors: errors.array(),
       });
     } else {
-      user.save((err) => {
+      bcryptjs.hash(req.body.password, 10, function (err, hashedPassword) {
         if (err) {
           return next(err);
         } else {
-          res.redirect("/");
+          user.password = hashedPassword;
+          user.save((err) => {
+            if (err) {
+              return next(err);
+            } else {
+              res.redirect("/");
+            }
+          });
         }
       });
     }

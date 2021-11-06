@@ -1,4 +1,4 @@
-const { body, validationResult } = require("express-validator");
+const { body, check, validationResult } = require("express-validator");
 const User = require("../models/User");
 const bcryptjs = require("bcryptjs");
 
@@ -43,6 +43,12 @@ exports.sign_up_post = [
     .withMessage("Password: Length must be 8-100 characters.")
     .trim()
     .escape(),
+  check(
+    "confirmPassword",
+    "Password input and password confirmation input must match."
+  )
+    .exists()
+    .custom((value, { req }) => value === req.body.password),
   function (req, res, next) {
     const errors = validationResult(req);
     const user = new User({
@@ -53,6 +59,7 @@ exports.sign_up_post = [
       membershipStatus: false,
     });
     if (!errors.isEmpty()) {
+      Object.assign(user, { confirmPassword: req.body.confirmPassword });
       res.render("signup", {
         user: user,
         errors: errors.array(),

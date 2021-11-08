@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <h1>Members Only - Dashboard</h1>
+    <%- include("./partials/messages.ejs") %>
+    <h1>Greetings <%= currentUser.fullName %></h1>
+    <a href="/logout">Log Out</a>
+  </body>
+</html>

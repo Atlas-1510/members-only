@@ -1,7 +1,7 @@
-var express = require("express");
-var router = express.Router();
-
+const express = require("express");
+const router = express.Router();
 const MainController = require("../controllers/Main");
+const { ensureAuthenticated } = require("./../config/authenticate");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -22,5 +22,8 @@ router.post("/login", MainController.log_in_post);
 
 /* GET log-out page */
 router.get("/logout", MainController.log_out_get);
+
+/* GET dashboard page */
+router.get("/dashboard", ensureAuthenticated, MainController.dashboard_get);
 
 module.exports = router;

@@ -2,14 +2,8 @@
 <html>
   <%- include('./partials/head.ejs') %>
   <body>
-    <h1>Members Only</h1>
-    <%- include("./partials/messages.ejs") %> <% if (success != '') { %>
-    <h1><%= success %></h1>
-    <h1>Greetings <%= currentUser.fullName %></h1>
-    <a href="/logout">Log Out</a>
-    <% } else { %>
+    <h1>Landing Page</h1>
     <a href="/signup">Sign Up</a>
     <a href="/login">Log in</a>
-    <% } %>
   </body>
 </html>

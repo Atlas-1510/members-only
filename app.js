@@ -11,7 +11,7 @@ const flash = require("connect-flash");
 const app = express();
 
 // Authentication
-require("./config/authentication")(passport);
+require("./config/passport")(passport);
 
 // Database
 const mongoose = require("mongoose");

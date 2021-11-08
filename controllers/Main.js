@@ -120,7 +120,7 @@ exports.log_in_get = [
 // Handle log-in form on POST
 exports.log_in_post = (req, res, next) => {
   passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: "/dashboard",
     failureRedirect: "/login",
     failureFlash: true,
     successFlash: true,
@@ -132,4 +132,9 @@ exports.log_out_get = (req, res, next) => {
   req.logout();
   req.flash("info", "You are now logged out");
   res.redirect("/");
+};
+
+// Display dashboard on GET
+exports.dashboard_get = (req, res, next) => {
+  res.render("dashboard");
 };

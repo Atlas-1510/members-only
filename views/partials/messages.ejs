@@ -1,0 +1,9 @@
+<% if (error) { %>
+<p><%= error %></p>
+<% } %> <% if (success) { %>
+<p><%= success %></p>
+<% } %> <% if (info) { %>
+<p><%= info %></p>
+<% } %> <% if (locals.errors) { %> <% errors.forEach(error => { %>
+<p><%= error %></p>
+<% }) %> <% } %>

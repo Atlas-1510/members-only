@@ -1,20 +1,21 @@
 const { body, check, validationResult } = require("express-validator");
 const User = require("../models/User");
-const bcryptjs = require("bcryptjs");
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 // Display sign-up form on GET
 exports.sign_up_get = [
   function (req, res, next) {
-    res.render("signup", { title: "Sign Up" });
+    res.render("signup");
   },
 ];
 
 // Handle sign-up form on POST
 exports.sign_up_post = [
-  function (req, res, next) {
-    next();
-  },
   body("firstName")
+    .exists({ checkFalsy: true })
+    .withMessage("First name is required.")
+    .bail()
     .isAlphanumeric()
     .withMessage("First name: Only characters a-z, A-Z, and 0-9 are allowed.")
     .isLength({ max: 100 })
@@ -22,6 +23,9 @@ exports.sign_up_post = [
     .trim()
     .escape(),
   body("lastName")
+    .exists({ checkFalsy: true })
+    .withMessage("Last name is required.")
+    .bail()
     .isAlphanumeric()
     .withMessage("Last name: Only characters a-z, A-Z, and 0-9 are allowed.")
     .isLength({ max: 100 })
@@ -29,12 +33,18 @@ exports.sign_up_post = [
     .trim()
     .escape(),
   body("email")
+    .exists({ checkFalsy: true })
+    .withMessage("Email is required.")
+    .bail()
     .isEmail()
     .withMessage("Email: Must be a valid email address.")
     .isLength({ max: 100 })
     .withMessage("Email: Must be less than 100 characters.")
     .normalizeEmail(),
   body("password")
+    .exists({ checkFalsy: true })
+    .withMessage("Password is required.")
+    .bail()
     .isAlphanumeric()
     .withMessage("Password: Only characters a-z, A-Z, and 0-9 are allowed.")
     .matches(/\d/)
@@ -50,7 +60,9 @@ exports.sign_up_post = [
     .exists()
     .custom((value, { req }) => value === req.body.password),
   function (req, res, next) {
-    const errors = validationResult(req);
+    const errors = validationResult(req)
+      .array()
+      .map((obj) => obj.msg);
     const user = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -58,23 +70,38 @@ exports.sign_up_post = [
       password: req.body.password,
       membershipStatus: false,
     });
-    if (!errors.isEmpty()) {
+    if (errors.length > 0) {
       Object.assign(user, { confirmPassword: req.body.confirmPassword });
       res.render("signup", {
-        user: user,
-        errors: errors.array(),
+        user,
+        errors,
       });
     } else {
-      bcryptjs.hash(req.body.password, 10, function (err, hashedPassword) {
-        if (err) {
-          return next(err);
+      // Check if account with that email already exists
+      User.findOne({ email: req.body.email }).exec((err, existingUser) => {
+        if (existingUser) {
+          Object.assign(user, { confirmPassword: req.body.confirmPassword });
+          res.render("signup", {
+            user,
+            errors: ["Email is already registered"],
+          });
         } else {
-          user.password = hashedPassword;
-          user.save((err) => {
+          bcrypt.hash(req.body.password, 10, function (err, hashedPassword) {
             if (err) {
               return next(err);
             } else {
-              res.redirect("/");
+              user.password = hashedPassword;
+              user.save((err) => {
+                if (err) {
+                  return next(err);
+                } else {
+                  req.flash(
+                    "info",
+                    "You are now registered and ready to log in."
+                  );
+                  res.redirect("/login");
+                }
+              });
             }
           });
         }
@@ -82,3 +109,27 @@ exports.sign_up_post = [
     }
   },
 ];
+
+// Display log-in form on GET
+exports.log_in_get = [
+  function (req, res, next) {
+    res.render("login");
+  },
+];
+
+// Handle log-in form on POST
+exports.log_in_post = (req, res, next) => {
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+    successFlash: true,
+  })(req, res, next);
+};
+
+// Logout on GET
+exports.log_out_get = (req, res, next) => {
+  req.logout();
+  req.flash("info", "You are now logged out");
+  res.redirect("/");
+};

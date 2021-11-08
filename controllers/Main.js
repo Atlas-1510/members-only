@@ -120,7 +120,7 @@ exports.log_in_get = [
 // Handle log-in form on POST
 exports.log_in_post = (req, res, next) => {
   passport.authenticate("local", {
-    successRedirect: "/dashboard",
+    successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true,
     successFlash: true,

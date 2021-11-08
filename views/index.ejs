@@ -2,8 +2,12 @@
 <html>
   <%- include('./partials/head.ejs') %>
   <body>
-    <h1>Landing Page</h1>
+    <h1>Home Page</h1>
+    <%- include("./partials/messages.ejs") %> <% if (!locals.currentUser) { %>
     <a href="/signup">Sign Up</a>
-    <a href="/login">Log in</a>
+    <a href="/login">Log In</a>
+    <% } else { %>
+    <a href="/logout">Log Out</a>
+    <% } %>
   </body>
 </html>

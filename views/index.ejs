@@ -8,12 +8,12 @@
     <a href="/login">Log In</a>
     <% } else { %>
     <a href="/article/create">Create Article</a>
+    <a href="/logout">Log Out</a>
     <% if (locals.currentUser.isMember) { %>
     <a href="/member/revokeMembership">Revoke Membership</a>
     <% } else { %>
     <a href="/member/signup">Become a member </a>
-    <% } %>
-    <a href="/logout">Log Out</a>
-    <% } %>
+    <% } %> <% } %> <%- include("./partials/articles.ejs", {articles:
+    locals.articles}) %>
   </body>
 </html>

@@ -4,9 +4,7 @@ const mainController = require("../controllers/main");
 const { ensureAuthenticated } = require("./../config/authenticate");
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index");
-});
+router.get("/", mainController.home_get);
 
 /* GET sign-up page. */
 router.get("/signup", mainController.sign_up_get);

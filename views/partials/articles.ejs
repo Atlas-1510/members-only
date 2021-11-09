@@ -1,0 +1,16 @@
+<% articles.forEach(article => { %>
+<h1><%= article.title %></h1>
+<p><%= article.content %></p>
+<% if (typeof locals.currentUser === 'undefined') { %>
+<p><strong>Date: </strong>XXXXXXX</p>
+<p><strong>Author: </strong>XXXXXXX</p>
+<% } else { %>
+<p>
+  <strong>Date: </strong><%= locals.currentUser.isMember ? article.timestamp :
+  "XXXXXXX" %>
+</p>
+<p>
+  <strong>Author: </strong><%= locals.currentUser.isMember ?
+  article.author.fullName : "XXXXXXX" %>
+</p>
+<% } %> <% }) %>

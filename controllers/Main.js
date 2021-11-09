@@ -1,7 +1,23 @@
 const { body, check, validationResult } = require("express-validator");
 const User = require("../models/User");
+const Article = require("../models/Article");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+
+// Display home page on GET
+exports.home_get = [
+  function (req, res, next) {
+    Article.find()
+      .populate("author")
+      .exec((err, articles) => {
+        if (err) {
+          return next(err);
+        } else {
+          res.render("index", { articles });
+        }
+      });
+  },
+];
 
 // Display sign-up form on GET
 exports.sign_up_get = [

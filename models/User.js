@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   lastName: { type: String, required: true, maxlength: 100 },
   email: { type: String, required: true, maxLength: 30 },
   password: { type: String, required: true },
-  membershipStatus: { type: Boolean, required: true },
+  isMember: { type: Boolean, required: true },
 });
 
 // Virtual for user full name

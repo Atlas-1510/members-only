@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <%- include('./partials/head.ejs', {title: "Member Sign Up"}) %>
+  <body>
+    <h1>Member Sign Up</h1>
+    <%- include("./partials/messages.ejs") %>
+    <form action="" method="post">
+      <label for="password">Enter Member Password</label>
+      <input name="password" id="password" type="password" />
+      <input type="submit" />
+    </form>
+    <a href="/">Go back</a>
+  </body>
+</html>

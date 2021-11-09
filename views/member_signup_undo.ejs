@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <%- include('./partials/head.ejs', {title: "Revoke Membership"}) %>
+  <body>
+    <h1>Revoke Membership</h1>
+    <%- include("./partials/messages.ejs") %>
+    <h2>You have membership status. Would you like to revoke it?</h2>
+    <form action="" method="post">
+      <input type="radio" id="yes" name="revokeMembership" value="true" />
+      <label>Yes</label>
+      <input type="radio" id="no" name="revokeMembership" value="false" />
+      <label>No</label>
+      <input type="submit" />
+    </form>
+    <a href="/">Go back</a>
+  </body>
+</html>

@@ -68,7 +68,7 @@ exports.sign_up_post = [
       lastName: req.body.lastName,
       email: req.body.email,
       password: req.body.password,
-      membershipStatus: false,
+      isMember: false,
     });
     if (errors.length > 0) {
       Object.assign(user, { confirmPassword: req.body.confirmPassword });

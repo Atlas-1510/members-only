@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <%- include('./partials/head.ejs', {title: "Create Article"}) %>
+  <body>
+    <h1>Create Article</h1>
+    <%- include("./partials/messages.ejs") %>
+    <form method="post">
+      <div>
+        <label for="title">Title</label>
+        <input name="title" id="title" type="text" value="<%= locals.article ?
+        locals.article.title : "" %>" autofocus />
+      </div>
+      <div>
+        <label for="content">Content</label>
+        <textarea name="content" id="content">
+<%=
+        locals.article ? locals.article.content : "" %></textarea
+        >
+      </div>
+      <input type="submit" />
+    </form>
+    <a href="/">Go back</a>
+  </body>
+</html>

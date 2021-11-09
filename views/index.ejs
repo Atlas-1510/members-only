@@ -6,11 +6,14 @@
     <%- include("./partials/messages.ejs") %> <% if (!locals.currentUser) { %>
     <a href="/signup">Sign Up</a>
     <a href="/login">Log In</a>
-    <% } else { %> <% if (locals.currentUser.isMember) { %>
+    <% } else { %>
+    <a href="/article/create">Create Article</a>
+    <% if (locals.currentUser.isMember) { %>
     <a href="/member/revokeMembership">Revoke Membership</a>
     <% } else { %>
     <a href="/member/signup">Become a member </a>
-    <% } %> <% } %>
+    <% } %>
     <a href="/logout">Log Out</a>
+    <% } %>
   </body>
 </html>

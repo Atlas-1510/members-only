@@ -75,6 +75,7 @@ exports.sign_up_post = [
   )
     .exists()
     .custom((value, { req }) => value === req.body.password),
+  body("isAdmin").isBoolean(),
   function (req, res, next) {
     const errors = validationResult(req)
       .array()
@@ -84,7 +85,8 @@ exports.sign_up_post = [
       lastName: req.body.lastName,
       email: req.body.email,
       password: req.body.password,
-      isMember: false,
+      isMember: req.body.isAdmin ? true : false,
+      isAdmin: req.body.isAdmin,
     });
     if (errors.length > 0) {
       Object.assign(user, { confirmPassword: req.body.confirmPassword });

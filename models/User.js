@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, maxLength: 30 },
   password: { type: String, required: true },
   isMember: { type: Boolean, required: true },
+  isAdmin: { type: Boolean },
 });
 
 // Virtual for user full name

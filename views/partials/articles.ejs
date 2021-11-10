@@ -13,4 +13,10 @@
   <strong>Author: </strong><%= locals.currentUser.isMember ?
   article.author.fullName : "XXXXXXX" %>
 </p>
-<% } %> <% }) %>
+<% } %> <% if (typeof locals.currentUser !== "undefined") { %> <% if
+(locals.currentUser.isAdmin) { %>
+<form method="post" action="/article/delete">
+  <input type="hidden" name="articleID" value="<%= article.id %>" />
+  <input type="submit" value="Delete Article" />
+</form>
+<% } %> <% } %> <% }) %>

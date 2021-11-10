@@ -7,4 +7,12 @@ module.exports = {
       res.redirect("/login");
     }
   },
+  ensureAdmin: function (req, res, next) {
+    if (req.user.isAdmin) {
+      return next();
+    } else {
+      req.flash("error", "You must be an admin to do that");
+      res.redirect("/");
+    }
+  },
 };

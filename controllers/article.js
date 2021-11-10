@@ -37,3 +37,18 @@ exports.create_article_post = [
     }
   },
 ];
+
+// Handle delete article request POST
+exports.delete_article_post = [
+  // Already check user is an admin via route handler
+  (req, res, next) => {
+    Article.findByIdAndDelete(req.body.articleID).exec((err, result) => {
+      if (err) {
+        return next(err);
+      } else {
+        req.flash("info", "That article has been deleted");
+        res.redirect("/");
+      }
+    });
+  },
+];

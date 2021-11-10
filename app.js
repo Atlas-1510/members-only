@@ -7,8 +7,11 @@ const logger = require("morgan");
 const passport = require("passport");
 const session = require("express-session");
 const flash = require("connect-flash");
+const helmet = require("helmet");
 
 const app = express();
+
+app.use(helmet());
 
 // Authentication
 require("./config/passport")(passport);

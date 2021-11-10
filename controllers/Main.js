@@ -13,6 +13,8 @@ exports.home_get = [
         if (err) {
           return next(err);
         } else {
+          if (true) {
+          }
           res.render("index", { articles });
         }
       });
